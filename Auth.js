@@ -1,6 +1,7 @@
 class Auth {
   constructor() {
-    this.ports = [];
+    this.ports = [5000];
+    this.blockChain = [];
     this.id = 0
   }
 }

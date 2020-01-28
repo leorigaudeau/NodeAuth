@@ -1,17 +1,16 @@
 const bodyParser = require("body-parser");
-const  express  = require("express");
-const  argv  = require("yargs").argv;
+const express = require("express");
 const app = express();
-const  Auth  = require("./Auth");
-
+const Auth = require("./Auth");
 
 let auth = new Auth();
 
 app.use(bodyParser.json());
 app.post("/newnode", (req, res) => {
-  let {port} = req.body;
+  let { port } = req.body;
+  console.log(port);
   if (!port) {
-    res.status(400).send('port undefined')
+    res.status(400).send("port undefined");
   }
   var exist = auth.ports.findIndex(portiter => {
     if (port === portiter) {
@@ -20,11 +19,16 @@ app.post("/newnode", (req, res) => {
   });
   if (exist === -1) {
     auth.ports.push(port);
-    auth.id++ 
-    res.status(200).send(auth)
-  }else{
-    res.status(400).send()
+    auth.id++;
+    res.status(200).send(auth);
+  } else {
+    res.status(400).send();
   }
+});
+app.post("/sync", (req, res) => {
+  let { block } = req.body;
+  auth.blockChain.push(block);
+  res.status(200).send(auth.blockChain);
 });
 // Start server
 app.listen(5000, () => {
