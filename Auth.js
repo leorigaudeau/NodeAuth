@@ -1,9 +1,8 @@
-const {http} = require('http');
-
 class Auth {
   constructor() {
-    this.ports=[]
+    this.ports = [];
+    this.id = 0
   }
 }
 
-module.exports = Auth
+module.exports = Auth;

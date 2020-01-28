@@ -8,10 +8,11 @@ const  Auth  = require("./Auth");
 let auth = new Auth();
 
 app.use(bodyParser.json());
-app.post("/newNode", (req, res) => {
+app.post("/newnode", (req, res) => {
   let {port} = req.body;
-  console.log(port);
-  
+  if (!port) {
+    res.status(400).send('port undefined')
+  }
   var exist = auth.ports.findIndex(portiter => {
     if (port === portiter) {
       return portiter;
@@ -19,10 +20,9 @@ app.post("/newNode", (req, res) => {
   });
   if (exist === -1) {
     auth.ports.push(port);
-    res.status(200).send(auth.ports)
+    auth.id++ 
+    res.status(200).send(auth)
   }else{
-    console.log("ici");
-    
     res.status(400).send()
   }
 });
