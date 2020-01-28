@@ -1,12 +1,25 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const axios = require("axios");
 const app = express();
 const Auth = require("./Auth");
 
 let auth = new Auth();
 
 app.use(bodyParser.json());
-app.post("/newnode", (req, res) => {
+app.use(function (req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
+});
+app.post("/newnode", (req, res,next) => {
   let { port } = req.body;
   console.log(port);
   if (!port) {
@@ -18,6 +31,12 @@ app.post("/newnode", (req, res) => {
     }
   });
   if (exist === -1) {
+    auth.ports.forEach(element => {
+  
+      if (element != 5000) {
+        axios.post("http://localhost:"+element+"/syncports",{ports: auth.ports})
+      }
+    });
     auth.ports.push(port);
     auth.id++;
     res.status(200).send(auth);
@@ -25,7 +44,7 @@ app.post("/newnode", (req, res) => {
     res.status(400).send();
   }
 });
-app.post("/sync", (req, res) => {
+app.post("/sync", (req, res,next) => {
   let { block } = req.body;
   auth.blockChain.push(block);
   res.status(200).send(auth.blockChain);
