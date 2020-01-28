@@ -1,0 +1,24 @@
+{
+  "name": "nodeauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leorigaudeau/NodeAuth.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leorigaudeau/NodeAuth/issues"
+  },
+  "homepage": "https://github.com/leorigaudeau/NodeAuth#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "yargs": "^15.1.0"
+  }
+}
